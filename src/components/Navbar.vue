@@ -73,7 +73,15 @@
               href="/"
             >Cart</a>
           </li>
-          <li>
+          <li v-if="isLoggedIn">
+            <button
+              @click="logout"
+              class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+            >
+              Logout
+            </button>
+          </li>
+          <li v-else>
             <a
               class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               href="/login"
@@ -86,17 +94,27 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: "Navbar",
   data() {
     return {
       isNavbarOpen: false,
     };
   },
+  computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem('token');
+    },
+  },
   methods: {
     toggleNavbar() {
       this.isNavbarOpen = !this.isNavbarOpen;
+    },
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push('/login');
     },
   },
 };
