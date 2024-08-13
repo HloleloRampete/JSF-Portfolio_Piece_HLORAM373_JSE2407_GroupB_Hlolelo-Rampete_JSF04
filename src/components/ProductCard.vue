@@ -123,6 +123,7 @@ export default {
     return {
       handleClick,
       addToFavourites,
+      addToCart,
     };
   },
 };
