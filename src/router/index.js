@@ -7,15 +7,35 @@ import ProductDetailPage from '../views/ProductDetailPage.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/wishList', name: 'WishList', component: WishList },
+  { 
+    path: '/wishList', 
+    name: 'WishList', 
+    component: WishList, 
+    meta: { requiresAuth: true } 
+  },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/cart', name: 'Cart', component: Cart },
+  { 
+    path: '/cart', 
+    name: 'Cart', 
+    component: Cart, 
+    meta: { requiresAuth: true } 
+  },
   { path: '/products/:id', name: 'ProductDetail', component: ProductDetailPage },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.meta.requiresAuth && !token) {
+    localStorage.setItem('redirectPath', to.fullPath);
+    next({ name: 'Login' });
+  } else {
+    next();
+  }
 });
 
 export default router;
