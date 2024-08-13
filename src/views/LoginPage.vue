@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { useRouter } from "vue-router"
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const email = ref("");
-    const password = ref("");
+    const username = ref('');
+    const password = ref('');
     const passwordVisible = ref(false);
     const loading = ref(false);
     const error = ref(null);
