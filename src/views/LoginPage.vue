@@ -69,23 +69,66 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router"
 
 export default {
   setup() {
     const email = ref("");
     const password = ref("");
+    const passwordVisible = ref(false);
+    const loading = ref(false);
+    const error = ref(null);
+    const router = useRouter();
 
-    const handleLogin = () => {
-      // Handle login logic here
-      console.log("Login attempt:", {
-        email: email.value,
-        password: password.value,
-      });
+    const togglePasswordVisibility = () => {
+      passwordVisible.value = !passwordVisible.value;
+    };
+
+    const handleLogin = async () => {
+      if (!username.value || !password.value) {
+        error.value = 'Username and password are required';
+        return;
+      }
+
+      loading.value = true;
+      error.value = null;
+
+      try {
+        const response = await fetch('https://fakestoreapi.com/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('token', data.token);
+          const redirectTo = localStorage.getItem('redirectPath') || '/';
+          localStorage.removeItem('redirectPath');
+          router.push(redirectTo);
+        } else {
+          error.value = 'Invalid username or password';
+        }
+      } catch (err) {
+        error.value = 'Failed to log in. Please try again.';
+      } finally {
+        loading.value = false;
+      }
     };
 
     return {
-      email,
+      username,
       password,
+      passwordVisible,
+      loading,
+      error,
+      togglePasswordVisibility,
       handleLogin,
     };
   },
