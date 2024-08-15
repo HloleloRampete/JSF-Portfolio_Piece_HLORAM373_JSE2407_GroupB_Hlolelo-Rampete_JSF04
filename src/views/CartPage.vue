@@ -39,7 +39,7 @@ export default {
   created() {
     const userId = getUserIdFromToken();
     if (!userId) {
-      this.$router.push({ name: 'Login' });
+      this.$router.push({ name: 'Cart' });
       return;
     }
 

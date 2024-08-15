@@ -93,7 +93,7 @@ export default {
     const addToCart = () => {
       const userId = getUserIdFromToken();
       if (!userId) {
-        router.push({ name: "Login" }); // Redirect to login if not logged in
+        router.push({ name: "Cart" }); // Redirect to login if not logged in
         return;
       }
 
