@@ -73,8 +73,7 @@
 <script>
 import { useRouter } from "vue-router";
 import Ratings from "@/components/RatingsComponent.vue";
-import { getUserIdFromToken } from "@/utils/auth";
-import { getCart, saveCart } from "@/utils/cart";
+
 
 export default {
   name: "ProductCard",
@@ -91,24 +90,7 @@ export default {
     const router = useRouter();
 
     const addToCart = () => {
-      const userId = getUserIdFromToken();
-      if (!userId) {
-        router.push({ name: "Cart" }); // Redirect to login if not logged in
-        return;
-      }
-
-      const cart = getCart();
-      const productExists = cart.find(
-        (item) => item.productId === props.product.id
-      );
-
-      if (productExists) {
-        productExists.quantity += 1;
-      } else {
-        cart.push({ userId, productId: props.product.id, quantity: 1 });
-      }
-
-      saveCart(cart);
+      // add to cart logic
     };
 
     const handleClick = () => {

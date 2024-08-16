@@ -25,27 +25,4 @@
 </template>
 
 <script>
-import { getUserIdFromToken } from "@/utils/auth";
-import { getCart, getCartTotal } from "@/utils/cart";
-
-export default {
-  name: "CartPage",
-  data() {
-    return {
-      cartItems: [],
-      cartTotal: 0,
-    };
-  },
-  created() {
-    const userId = getUserIdFromToken();
-    if (!userId) {
-      this.$router.push({ name: 'Cart' });
-      return;
-    }
-
-    const cart = getCart();
-    this.cartItems = cart.filter(item => item.userId === userId);
-    this.cartTotal = getCartTotal();
-  },
-};
 </script>
