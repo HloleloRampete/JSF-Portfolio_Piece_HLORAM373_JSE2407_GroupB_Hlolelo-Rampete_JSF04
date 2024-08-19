@@ -4,6 +4,7 @@ import WishList from '../views/WishList.vue';
 import Login from '../views/LoginPage.vue';
 import Cart from '../views/CartPage.vue';
 import ProductDetailPage from '../views/ProductDetailPage.vue';
+import ComparisonPage from '../views/ComparisonPage.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -21,6 +22,12 @@ const routes = [
     meta: { requiresAuth: true } 
   },
   { path: '/products/:id', name: 'ProductDetail', component: ProductDetailPage },
+  { 
+    path: '/comparison', 
+    name: 'Comparison', 
+    component: ComparisonPage, 
+    meta: { requiresAuth: true } 
+  },
 ];
 
 const router = createRouter({

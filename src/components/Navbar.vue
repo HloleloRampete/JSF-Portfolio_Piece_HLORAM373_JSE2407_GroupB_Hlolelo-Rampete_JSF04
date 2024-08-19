@@ -1,10 +1,19 @@
 <template>
   <nav class="bg-gray-500 border-gray-200">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div
+      class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+    >
       <a href="/">
         <button class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="../assets/online-shop.png" class="h-8" alt="Flowbite Logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SwiftCart</span>
+          <img
+            src="../assets/online-shop.png"
+            class="h-8"
+            alt="Flowbite Logo"
+          />
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap text-white"
+            >SwiftCart</span
+          >
         </button>
       </a>
       <button
@@ -37,18 +46,21 @@
         class="w-full md:block md:w-auto"
         id="navbar-default"
       >
-      <ul
+        <ul
           class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
         >
           <li>
             <a
               class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               href="/wishlist"
-            >Wishlist</a>
+              >Wishlist</a
+            >
           </li>
           <li class="hidden lg:block md:block relative">
             <div class="t-0 absolute left-3 -top-4">
-              <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+              <p
+                class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
+              >
                 2
               </p>
             </div>
@@ -73,7 +85,8 @@
             <a
               class="lg:hidden md:hidden py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               href="/cart"
-            >Cart</a>
+              >Cart</a
+            >
           </li>
           <li v-if="isLoggedIn">
             <button
@@ -87,7 +100,15 @@
             <a
               class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               href="/login"
-            >Login</a>
+              >Login</a
+            >
+          </li>
+          <li>
+            <a
+              class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              href="/comparison"
+              >Compare</a
+            >
           </li>
         </ul>
       </div>
@@ -96,7 +117,6 @@
 </template>
 
 <script>
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Navbar",
@@ -107,7 +127,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem("token");
     },
   },
   methods: {
@@ -115,8 +135,8 @@ export default {
       this.isNavbarOpen = !this.isNavbarOpen;
     },
     logout() {
-      localStorage.removeItem('token');
-      this.$router.push('/login');
+      localStorage.removeItem("token");
+      this.$router.push("/login");
     },
   },
 };

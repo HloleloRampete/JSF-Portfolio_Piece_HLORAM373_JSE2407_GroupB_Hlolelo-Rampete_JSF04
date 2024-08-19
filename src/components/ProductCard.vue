@@ -64,6 +64,12 @@
           >
             Add To Cart
           </button>
+          <button
+      @click.stop="addToComparison"
+      class="inline-flex justify-center whitespace-nowrap rounded-lg bg-purple-700 px-3 py-2 text-sm font-medium text-white hover:bg-purple-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
+    >
+      Compare
+    </button>
         </div>
       </div>
     </div>
@@ -73,6 +79,8 @@
 <script>
 import { useRouter } from "vue-router";
 import Ratings from "@/components/RatingsComponent.vue";
+import { getComparisonList } from "@/utils/comparison";
+import { saveComparisonList } from "@/utils/comparison";
 
 
 export default {
@@ -88,6 +96,18 @@ export default {
   },
   setup(props) {
     const router = useRouter();
+
+    const addToComparison = () => {
+      const comparisonList = getComparisonList;
+      if (comparisonList.length >= 3) {
+        alert('You can only compare up to 3 products.');
+        return;
+      }
+      if (!comparisonList.some(item => item.id === props.product.id)) {
+        comparisonList.push(props.product);
+        saveComparisonList(comparisonList);
+      }
+    };
 
     const addToCart = () => {
       // add to cart logic
@@ -106,6 +126,7 @@ export default {
       handleClick,
       addToFavourites,
       addToCart,
+      addToComparison,
     };
   },
 };
