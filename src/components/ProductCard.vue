@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="flex mt-1 space-x-2">
+      <div class="flex mt-1 space-x-2 items-center">
         <div class="justify-start flex-1">
           <span
             class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
@@ -36,10 +36,10 @@
             {{ product.category }}
           </span>
         </div>
-        <div class="justify-end space-x-2">
+        <div class="flex justify-end items-center space-x-2">
           <button @click.stop="addToFavourites">
             <svg
-              class="me-1.5 h-5 w-5 hover:fill-red-500"
+              class="h-5 w-5 hover:fill-red-500"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -60,16 +60,45 @@
 
           <button
             @click.stop="addToCart"
-            class="inline-flex justify-center whitespace-nowrap rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
+            class="inline-flex items-center rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
           >
-            Add To Cart
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path
+                d="M1 1h4l2.68 13.39a1 1 0 00.92.76h9.72a1 1 0 00.98-.8l1.54-7.79H6.62"
+              />
+            </svg>
           </button>
+
           <button
-      @click.stop="addToComparison"
-      class="inline-flex justify-center whitespace-nowrap rounded-lg bg-purple-700 px-3 py-2 text-sm font-medium text-white hover:bg-purple-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
-    >
-      Compare
-    </button>
+            @click.stop="addToComparison"
+            class="inline-flex items-center rounded-lg bg-purple-700 px-3 py-2 text-sm font-medium text-white hover:bg-purple-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 20v-6M18 20V10M6 20v-4"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -81,7 +110,6 @@ import { useRouter } from "vue-router";
 import Ratings from "@/components/RatingsComponent.vue";
 import { getComparisonList } from "@/utils/comparison";
 import { saveComparisonList } from "@/utils/comparison";
-
 
 export default {
   name: "ProductCard",
