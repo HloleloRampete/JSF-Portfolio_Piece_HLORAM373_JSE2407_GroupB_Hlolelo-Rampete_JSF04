@@ -20,7 +20,10 @@
             </div>
           </h2>
         </header>
-        <Ratings :rate="product.rating.rate" :count="product.rating.count" />
+        <div class="flex items-center">
+          <Ratings :rate="product.rating.rate" :count="product.rating.count" />
+          <span class="ml-2 mb-2 text-sm text-gray-500">({{ product.rating.count }} reviews)</span>
+        </div>
         <div
           class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug"
         >
