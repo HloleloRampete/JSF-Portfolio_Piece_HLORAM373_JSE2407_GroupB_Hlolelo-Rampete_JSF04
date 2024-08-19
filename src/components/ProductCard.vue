@@ -129,16 +129,16 @@ export default {
     const router = useRouter();
 
     const addToComparison = () => {
-      const comparisonList = getComparisonList;
-      if (comparisonList.length >= 3) {
-        alert('You can only compare up to 3 products.');
-        return;
-      }
-      if (!comparisonList.some(item => item.id === props.product.id)) {
-        comparisonList.push(props.product);
-        saveComparisonList(comparisonList);
-      }
-    };
+  const comparisonList = getComparisonList(); // Call the function
+  if (comparisonList.length >= 3) {
+    alert('You can only compare up to 3 products.');
+    return;
+  }
+  if (!comparisonList.some(item => item.id === props.product.id)) {
+    comparisonList.push(props.product);
+    saveComparisonList(comparisonList);
+  }
+};
 
     const addToCart = () => {
       // add to cart logic
