@@ -1,7 +1,10 @@
 <template>
   <div
     @click="handleClick"
-    class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
+    :class="[
+      'flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden',
+      { 'bg-white': !isCartView, 'bg-gray-100': isCartView } // Conditional styling for cart view
+    ]"
   >
     <img
       class="object-contain h-48 mt-3"
@@ -31,7 +34,7 @@
         </div>
       </div>
 
-      <div class="flex mt-1 space-x-2 items-center">
+      <div v-if="!isCartView" class="flex mt-1 space-x-2 items-center">
         <div class="justify-start flex-1">
           <span
             class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
@@ -104,6 +107,28 @@
           </button>
         </div>
       </div>
+
+      <!-- Cart-specific features -->
+      <div v-if="isCartView" class="flex mt-2 space-x-2 items-center">
+        <input
+          type="number"
+          min="1"
+          v-model.number="quantity"
+          class="w-20 p-2 border border-gray-300 rounded"
+        />
+        <button
+          @click.stop="updateQuantity"
+          class="inline-flex items-center rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
+        >
+          Update
+        </button>
+        <button
+          @click.stop="removeFromCart"
+          class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-sm font-medium text-white hover:bg-red-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors"
+        >
+          Remove
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -122,61 +147,86 @@ export default {
       type: Object,
       required: true,
     },
+    isCartView: {
+      type: Boolean,
+      default: false
+    }
   },
-  components: {
-    Ratings,
-  },
-  setup(props) {
-    const router = useRouter();
-
-    const addToComparison = () => {
-  const comparisonList = getComparisonList(); // Call the function
-  if (comparisonList.length >= 3) {
-    alert('You can only compare up to 3 products.');
-    return;
-  }
-  if (!comparisonList.some(item => item.id === props.product.id)) {
-    comparisonList.push(props.product);
-    saveComparisonList(comparisonList);
-  }
-};
-
-const addToCart = () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert('You must be logged in to add items to the cart.');
-    return;
-  }
-
-  const userId = jwtDecode(token).userId;
-  let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
-  
-  const existingItemIndex = cart.findIndex(item => item.id === props.product.id);
-  if (existingItemIndex !== -1) {
-    cart[existingItemIndex].quantity += 1;
-    alert('Product quantity updated.');
-  } else {
-    cart.push({ ...props.product, quantity: 1 });
-  }
-  
-  localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
-};
-
-    const handleClick = () => {
-      router.push({ name: "ProductDetail", params: { id: props.product.id } });
+  data() {
+    return {
+      quantity: this.isCartView ? this.product.quantity || 1 : 1
     };
+  },
+  methods: {
+    handleClick() {
+      if (!this.isCartView) {
+        this.$router.push({ name: "ProductDetail", params: { id: this.product.id } });
+      }
+    },
+    addToComparison() {
+      const comparisonList = getComparisonList(); // Call the function
+      if (comparisonList.length >= 3) {
+        alert('You can only compare up to 3 products.');
+        return;
+      }
+      if (!comparisonList.some(item => item.id === this.product.id)) {
+        comparisonList.push(this.product);
+        saveComparisonList(comparisonList);
+      }
+    },
+    addToCart() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You must be logged in to add items to the cart.');
+        return;
+      }
 
-    const addToFavourites = (event) => {
+      const userId = jwtDecode(token).userId;
+      let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+      
+      const existingItemIndex = cart.findIndex(item => item.id === this.product.id);
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+        alert('Product quantity updated.');
+      } else {
+        cart.push({ ...this.product, quantity: 1 });
+      }
+      
+      localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+    },
+    updateQuantity() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      
+      const userId = jwtDecode(token).userId;
+      let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+      const item = cart.find(item => item.id === this.product.id);
+      if (item) {
+        item.quantity = this.quantity;
+        localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+        this.$emit('updateQuantity', this.product.id, this.quantity);
+      }
+    },
+    removeFromCart() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      
+      const userId = jwtDecode(token).userId;
+      let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+      const updatedCart = cart.filter(item => item.id !== this.product.id);
+      localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
+      this.$emit('removeItem', this.product.id);
+    },
+    addToFavourites(event) {
       event.stopPropagation();
       // Add to favorites logic
-    };
-
-    return {
-      handleClick,
-      addToFavourites,
-      addToCart,
-      addToComparison,
-    };
-  },
+    }
+  }
 };
 </script>
+
+<style scoped>
+.product-card {
+  @apply flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden;
+}
+</style>
