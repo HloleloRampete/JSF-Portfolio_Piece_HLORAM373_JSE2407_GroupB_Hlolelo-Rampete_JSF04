@@ -57,13 +57,10 @@
             >
           </li>
           <li class="hidden lg:block md:block relative">
-            <div class="t-0 absolute left-3 -top-4">
-              <p
-                class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
-              >
-                2
-              </p>
-            </div>
+            <div v-if="isLoggedIn" class="relative">
+        <div v-if="cartCount > 0" class="absolute top-0 right-0 bg-red-500 text-white rounded-full h-5 w-5 text-center text-xs">
+          {{ cartCount }}
+        </div>
             <a href="/cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,6 +77,7 @@
                 ></path>
               </svg>
             </a>
+            </div>
           </li>
           <li>
             <a
@@ -117,6 +115,8 @@
 </template>
 
 <script>
+import { jwtDecode } from 'jwt-decode';
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Navbar",
@@ -125,10 +125,18 @@ export default {
       isNavbarOpen: false,
     };
   },
+  
   computed: {
     isLoggedIn() {
       return !!localStorage.getItem("token");
     },
+    cartCount() {
+      const token = localStorage.getItem('token');
+      if (!token) return 0;
+      const userId = jwtDecode(token).userId;
+      const cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+      return cart.reduce((count, item) => count + item.quantity, 0);
+    }
   },
   methods: {
     toggleNavbar() {

@@ -113,6 +113,7 @@ import { useRouter } from "vue-router";
 import Ratings from "@/components/RatingsComponent.vue";
 import { getComparisonList } from "@/utils/comparison";
 import { saveComparisonList } from "@/utils/comparison";
+import { jwtDecode } from 'jwt-decode';
 
 export default {
   name: "ProductCard",
@@ -140,9 +141,26 @@ export default {
   }
 };
 
-    const addToCart = () => {
-      // add to cart logic
-    };
+const addToCart = () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('You must be logged in to add items to the cart.');
+    return;
+  }
+
+  const userId = jwtDecode(token).userId;
+  let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+  
+  const existingItemIndex = cart.findIndex(item => item.id === props.product.id);
+  if (existingItemIndex !== -1) {
+    cart[existingItemIndex].quantity += 1;
+    alert('Product quantity updated.');
+  } else {
+    cart.push({ ...props.product, quantity: 1 });
+  }
+  
+  localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+};
 
     const handleClick = () => {
       router.push({ name: "ProductDetail", params: { id: props.product.id } });
