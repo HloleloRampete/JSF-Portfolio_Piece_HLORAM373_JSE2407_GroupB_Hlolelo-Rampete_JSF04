@@ -142,6 +142,9 @@ import { jwtDecode } from 'jwt-decode';
 
 export default {
   name: "ProductCard",
+  components: {
+    Ratings
+  },
   props: {
     product: {
       type: Object,

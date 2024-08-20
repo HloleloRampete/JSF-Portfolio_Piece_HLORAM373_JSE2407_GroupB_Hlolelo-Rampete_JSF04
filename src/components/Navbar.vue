@@ -61,6 +61,7 @@
 import { jwtDecode } from 'jwt-decode';
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Navbar",
   data() {
     return {
