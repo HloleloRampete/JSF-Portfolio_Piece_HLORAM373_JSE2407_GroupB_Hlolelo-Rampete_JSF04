@@ -3,6 +3,9 @@
 ## Project Description: Refactoring an E-Commerce Store to Vue + Vite
 In this project, we are undertaking the task of refactoring an existing E-Commerce application initially developed in React into a new structure using Vue and Vite. The goal is to leverage Vue's Composition API and Vite's fast build and hot module replacement capabilities to create a modern, responsive, and efficient E-Commerce store. The refactoring process involves setting up a new Vue project, integrating Tailwind CSS for styling, configuring routing, and ensuring data fetching from the fakeStoreApi is seamlessly integrated into the application. Below is a comprehensive overview of the steps we have taken so far in this refactoring process.
 
+Custom Vercel Link: https://swiftcart-eta.vercel.app/
+Link to video: https://drive.google.com/drive/u/0/folders/1dbX5tlqHqz_1A_qh9NPGcZ5EyeW3toUn
+
 ## Table of Contents
 
 1. [Installation](#installation)
