@@ -28,7 +28,7 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone <[repository-url](https://github.com/HloleloRampete/JSF-Portfolio_Piece_HLORAM373_JSE2407_GroupB_Hlolelo-Rampete_JSF04.git)>
+   git clone [repository url](https://github.com/HloleloRampete/JSF-Portfolio_Piece_HLORAM373_JSE2407_GroupB_Hlolelo-Rampete_JSF04.git)
    ```
 
 2. **Install dependencies:**
